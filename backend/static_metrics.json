@@ -1,0 +1,36 @@
+{
+  "logistic_regression": {
+    "display_name": "Logistic Regression",
+    "accuracy": 0.7842,
+    "precision": 0.5814,
+    "recall": 0.6684,
+    "f1": 0.6219,
+    "roc_auc": 0.8389,
+    "threshold": 0.64
+  },
+  "random_forest": {
+    "display_name": "Random Forest",
+    "accuracy": 0.7587,
+    "precision": 0.5335,
+    "recall": 0.7246,
+    "f1": 0.6145,
+    "roc_auc": 0.8218,
+    "threshold": 0.37
+  },
+  "xgboost": {
+    "display_name": "XGBoost",
+    "accuracy": 0.7182,
+    "precision": 0.4821,
+    "recall": 0.8262,
+    "f1": 0.6089,
+    "roc_auc": 0.8181,
+    "threshold": 0.30
+  },
+  "dataset": {
+    "total_customers": 7043,
+    "original_columns": 21,
+    "churned": 1869,
+    "not_churned": 5174
+  },
+  "headline_model": "logistic_regression"
+}

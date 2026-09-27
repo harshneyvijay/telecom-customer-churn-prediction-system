@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telecom Customer Churn Prediction</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <h1>Telecom Customer Churn Prediction</h1>
+    <p class="subtitle">Machine learning system for identifying customers at risk of churn using behavioral, service, and billing attributes.</p>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- 1. ML OVERVIEW -->
+  <section id="overview" class="section">
+    <h2>Model Performance</h2>
+    <p class="section-note">Evaluation results from the trained pipeline (IBM Telco Customer Churn dataset, 7043 customers). These are fixed, already evaluated metrics — not live/real-time figures.</p>
+
+    <div class="metric-grid" id="metric-grid">
+      <!-- populated by JS -->
+    </div>
+
+    <h3 class="sub-heading">Model Comparison</h3>
+    <div class="table-wrap">
+      <table id="model-table">
+        <thead>
+          <tr><th>Model</th><th>ROC-AUC</th><th>F1</th><th>Recall</th><th>Precision</th><th>Accuracy</th><th>Threshold</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. PREDICTION -->
+  <section id="predict" class="section">
+    <h2>Churn Prediction</h2>
+    <p class="section-note">Enter customer attributes to estimate churn risk using the trained Logistic Regression model.</p>
+
+    <div class="predict-layout">
+      <form id="predict-form" class="card form-card">
+        <div class="form-grid">
+          <label>Tenure (months)
+            <input type="number" name="tenure" min="0" max="72" value="12" required>
+          </label>
+          <label>Monthly Charges ($)
+            <input type="number" name="MonthlyCharges" step="0.01" min="0" value="70" required>
+          </label>
+          <label>Total Charges ($)
+            <input type="number" name="TotalCharges" step="0.01" min="0" value="840" required>
+          </label>
+          <label>Senior Citizen
+            <select name="SeniorCitizen">
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+          </label>
+          <label>Gender
+            <select name="gender">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </label>
+          <label>Partner
+            <select name="Partner">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </label>
+          <label>Dependents
+            <select name="Dependents">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+            </select>
+          </label>
+          <label>Phone Service
+            <select name="PhoneService">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </label>
+          <label>Multiple Lines
+            <select name="MultipleLines">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No phone service">No phone service</option>
+            </select>
+          </label>
+          <label>Internet Service
+            <select name="InternetService">
+              <option value="Fiber optic">Fiber optic</option>
+              <option value="DSL">DSL</option>
+              <option value="No">No</option>
+            </select>
+          </label>
+          <label>Online Security
+            <select name="OnlineSecurity">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label>Online Backup
+            <select name="OnlineBackup">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label>Device Protection
+            <select name="DeviceProtection">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label>Tech Support
+            <select name="TechSupport">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label>Streaming TV
+            <select name="StreamingTV">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label>Streaming Movies
+            <select name="StreamingMovies">
+              <option value="No">No</option>
+              <option value="Yes">Yes</option>
+              <option value="No internet service">No internet service</option>
+            </select>
+          </label>
+          <label>Contract
+            <select name="Contract">
+              <option value="Month-to-month">Month-to-month</option>
+              <option value="One year">One year</option>
+              <option value="Two year">Two year</option>
+            </select>
+          </label>
+          <label>Paperless Billing
+            <select name="PaperlessBilling">
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </label>
+          <label>Payment Method
+            <select name="PaymentMethod">
+              <option value="Electronic check">Electronic check</option>
+              <option value="Mailed check">Mailed check</option>
+              <option value="Bank transfer (automatic)">Bank transfer (automatic)</option>
+              <option value="Credit card (automatic)">Credit card (automatic)</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit" class="btn-primary">Predict Churn Risk</button>
+        <p id="predict-error" class="error-text"></p>
+      </form>
+
+      <div class="card result-card" id="result-card">
+        <p class="placeholder-text">Submit customer attributes to see a prediction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. EXPLAINABILITY -->
+  <section id="explain" class="section">
+    <h2>Explainability</h2>
+    <div class="explain-grid">
+      <div class="card">
+        <h3>Prediction Explanation</h3>
+        <p class="section-note">Factors driving the most recent individual prediction (Logistic Regression coefficient × scaled value). Specific to that customer.</p>
+        <ul id="local-explanation" class="explanation-list">
+          <li class="placeholder-text">Run a prediction to see individual factors.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Global Feature Importance</h3>
+        <p class="section-note">Random Forest feature importance across the entire training set. Describes overall model behavior — not any single customer.</p>
+        <div class="chart-box"><canvas id="importance-chart"></canvas></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. ML INSIGHTS -->
+  <section id="insights" class="section">
+    <h2>ML Insights</h2>
+    <div class="insights-grid">
+      <div class="card">
+        <h3>Class Distribution</h3>
+        <div class="chart-box small"><canvas id="class-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Model Comparison (ROC-AUC)</h3>
+        <div class="chart-box small"><canvas id="roc-chart"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Churn Probability Distribution</h3>
+        <div class="chart-box small"><canvas id="prob-chart"></canvas></div>
+        <p class="section-note" id="prob-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. BATCH PREDICTION -->
+  <section id="batch" class="section">
+    <h2>Batch Prediction</h2>
+    <p class="section-note">Upload a CSV of customer records (same columns as the training dataset, minus Churn) to score them in bulk.</p>
+    <div class="card">
+      <form id="batch-form">
+        <input type="file" id="batch-file" accept=".csv" required>
+        <button type="submit" class="btn-primary">Upload &amp; Predict</button>
+      </form>
+      <p id="batch-status" class="section-note"></p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>Telecom Churn Prediction &mdash; ML portfolio project. Dataset: IBM Telco Customer Churn (7,043 customers).</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.db
+data/telco_churn.csv
+data/README.md
+.env
+.DS_Store

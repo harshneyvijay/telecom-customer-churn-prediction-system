@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints/
+.git/
+.gitignore
+.venv/
+venv/
+env/
+.env
+.pytest_cache/
+*.log
+.DS_Store
+node_modules/
