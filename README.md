@@ -4,8 +4,8 @@ End-to-end machine learning system that predicts telecom customer churn risk —
 
 
 ![Model performance and metrics comparison](docs/pic1.png)
-![Explainability and ML insights](docs/pic2.png)
 ![Churn prediction (for individual customer input record)](docs/pic3.png)
+![Explainability and ML insights](docs/pic2.png)
 
 ## Overview
 
@@ -29,10 +29,10 @@ Logistic Regression has the best F1/ROC-AUC; XGBoost trades precision for the hi
 
 ## Tech Stack
 
-**ML:** scikit-learn, XGBoost, imbalanced-learn (SMOTE), pandas, NumPy
-**Backend:** Flask, SQLite
-**Frontend:** HTML/CSS/JavaScript, Chart.js
-**Infra:** Docker
+- **ML:** scikit-learn, XGBoost, imbalanced-learn (SMOTE), pandas, NumPy
+- **Backend:** Flask, SQLite
+- **Frontend:** HTML/CSS/JavaScript, Chart.js
+- **Infra:** Docker
 
 ## Architecture
 
